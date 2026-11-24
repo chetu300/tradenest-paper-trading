@@ -6,7 +6,7 @@
 
 <p align="left">
   <img alt="React" src="https://img.shields.io/badge/React-19.3.1-61DAFB?logo=react&logoColor=white">
-  <img alt="Vite" src="https://img.shields.io/badge/Vite-8.3.8-646CFF?logo=vite&logoColor=white">
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-8.3.6-646CFF?logo=vite&logoColor=white">
   <img alt="Redux" src="https://img.shields.io/badge/Redux_Toolkit-2.15.0-764ABC?logo=redux&logoColor=white">
   <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-3.4.19-38B2AC?logo=tailwindcss&logoColor=white">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-Backend-339933?logo=nodedotjs&logoColor=white">
@@ -111,24 +111,53 @@ Notable model rules include:
 ```text
 stock-trading-simulator/
 ├── backend/
-│   ├── config/ controllers/ middleware/ models/
-│   ├── routes/ sockets/ tests/ utils/
-│   ├── .env.example
-│   ├── .railwayignore
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── portfolioController.js
+│   │   └── tradeController.js
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   ├── models/
+│   │   ├── Trade.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── portfolioRoutes.js
+│   │   └── tradeRoutes.js
+│   ├── sockets/
+│   │   └── priceEngine.js
+│   ├── tests/
+│   │   └── trade.test.js
+│   ├── utils/
+│   │   └── stocks.js
 │   ├── app.js
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── railway.json
-│   └── server.js
-├── frontend/
-│   ├── public/ src/
+│   ├── server.js
 │   ├── .env.example
-│   ├── netlify.toml
-│   ├── package.json
-│   └── package-lock.json
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── app/
+│   │   │   └── store.js
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── contexts/
+│   │   ├── data/
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   ├── portfolio/
+│   │   │   └── prices/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example
+│   ├── vite.config.js
+│   └── package.json
 ├── screenshots/
-├── .gitignore
-├── LICENSE
 └── README.md
 ```
 
@@ -146,7 +175,7 @@ stock-trading-simulator/
 Protected routes expect:
 
 ```http
-Authorization: Bearer <JWT>
+Authorization header with JWT token
 ```
 
 Socket.IO also exposes the `prices:update` event. A newly connected socket receives the current in-memory price snapshot; subsequent updates are emitted every 2.5 seconds.
@@ -160,14 +189,14 @@ Socket.IO also exposes the `prices:update` event. A newly connected socket recei
 | `PORT` | No | HTTP and Socket.IO server port. Falls back to `5000`. | `5000` |
 | `MONGO_URI` | Yes | MongoDB connection string. | `mongodb://127.0.0.1:27017/stock-trading-simulator` |
 | `JWT_SECRET` | Yes | Secret used to sign and verify seven-day JWTs. | `replace-with-a-long-random-secret` |
-| `CLIENT_URL` | No | Allowed frontend origin for REST and Socket.IO. Local Vite origins are also allowed in development. | `https://your-site.netlify.app` |
+| `CLIENT_URL` | No | Allowed CORS origin for REST and Socket.IO. Falls back to the Vite localhost URL. | `http://localhost:5173` |
 
 ### Frontend
 
 | Variable | Required | Description | Example |
 | --- | --- | --- | --- |
-| `VITE_API_URL` | No | Base URL for REST requests. Defaults to `http://localhost:5000/api`. | `https://your-api.up.railway.app/api` |
-| `VITE_SOCKET_URL` | No | Socket.IO server URL. Defaults to `http://localhost:5000`. | `https://your-api.up.railway.app` |
+| `VITE_API_URL` | No | Base URL for REST requests. Falls back to the local API URL. | `http://localhost:5000/api` |
+| `VITE_SOCKET_URL` | No | Socket.IO server URL. Falls back to the local server URL. | `http://localhost:5000` |
 
 ## Local Setup & Installation
 
@@ -204,7 +233,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 Install and start the backend:
 
 ```bash
-npm ci
+npm install
 npm run dev
 ```
 
@@ -217,11 +246,11 @@ Open a second terminal:
 ```bash
 cd frontend
 cp .env.example .env
-npm ci
+npm install
 npm run dev
 ```
 
-The example frontend environment points to the local backend at `http://localhost:5000`. Open `http://localhost:5173`.
+Open `http://localhost:5173`.
 
 ### 5. Verify the setup
 
@@ -232,12 +261,12 @@ curl http://localhost:5000/api/health
 ### Production build
 
 ```bash
-npm ci
+cd frontend
 npm run build
 npm run preview
 ```
 
-Run these commands from the `frontend/` directory. The Vite production bundle is generated in `frontend/dist/`.
+The Vite production bundle is generated in `frontend/dist/`. No Dockerfile or Docker Compose configuration is currently included, so Docker commands are not applicable.
 
 ### Backend tests
 
@@ -280,7 +309,7 @@ The `frontend/netlify.toml` file sets the build output and SPA route fallback. N
 - **JWT authentication:** Signup and login issue signed, seven-day tokens; protected routes verify a Bearer token in the Authorization header.
 - **Password security:** Passwords are hashed with bcryptjs at cost 12 and omitted from normal user reads.
 - **Server-side authorization:** Trade and portfolio operations derive the account from the verified JWT rather than a client-supplied user ID.
-- **CORS allowlisting:** REST and Socket.IO allow the configured `CLIENT_URL` and local Vite development origins.
+- **CORS allowlisting:** REST and Socket.IO use `CLIENT_URL`, with a localhost fallback.
 - **Request size limit:** Express limits JSON request bodies to 20 KB.
 - **Input and domain validation:** Authentication fields, positive whole-number quantities, supported symbols, trade sides, balances, and share ownership are checked on the server.
 - **Optimistic concurrency:** Mongoose user documents detect overlapping account updates and return a conflict response.
@@ -290,15 +319,19 @@ The `frontend/netlify.toml` file sets the build output and SPA route fallback. N
 
 The codebase does **not** currently include Helmet or an HTTP rate-limiting middleware. These would be recommended before a public production deployment.
 
-## Live Demo & Screenshots
+## Demo Credentials & Live Links
 
-The application does not seed a demo account. Create a disposable account through sign-up before sharing a live demo.
+> Create this disposable demo account through the app's sign-up page before sharing these credentials.
 
-| Item | Link / details |
+| Item | Demo value |
 | --- | --- |
-| Live Demo | Deploy with Netlify and Railway using the steps above. |
-| Demo Account | Create an account through the sign-up page. |
+| Live Demo | [https://YOUR-LIVE-DEMO-URL.com](https://YOUR-LIVE-DEMO-URL.com) |
+| Test User Email | `demo@tradenest.com` |
+| Test User Password | `TradeNestDemo2026!` |
+| Test Admin | No admin account or role is implemented in the current codebase. |
 | Dashboard Screenshot | [screenshots/dashboard.jpg](./screenshots/dashboard.jpg) |
 | Markets Screenshot | [screenshots/markets.jpg](./screenshots/markets.jpg) |
 | Portfolio Screenshot | [screenshots/portfolio.jpg](./screenshots/portfolio.jpg) |
 | Trade Confirmation Screenshot | [screenshots/trade-confirmation.jpg](./screenshots/trade-confirmation.jpg) |
+
+These are suggested demo credentials, not an account seeded by the application. Use them only for a disposable demo account and never reuse the password for a personal account.
