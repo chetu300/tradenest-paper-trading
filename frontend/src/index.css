@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Avenir Next", Avenir, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f8fafc;
+  background: #0f172a;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(20, 184, 166, 0.2), transparent 26rem),
+    radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.09), transparent 24rem),
+    #111827;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+::selection {
+  color: #f8fafc;
+  background: #0f9f92;
+}
+
+html[data-theme="light"] {
+  color: #0f172a;
+  background: #f1f5f9;
+  color-scheme: light;
+}
+
+html[data-theme="light"] body {
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(13, 148, 136, 0.13), transparent 28rem),
+    radial-gradient(circle at 88% 18%, rgba(217, 119, 6, 0.1), transparent 24rem),
+    #f1f5f9;
+}
+
+html[data-theme="light"] [class~="bg-slate-900"],
+html[data-theme="light"] [class*="bg-slate-900/"] {
+  background-color: #f1f5f9;
+}
+
+html[data-theme="light"] [class~="bg-slate-850"],
+html[data-theme="light"] [class*="bg-slate-850/"],
+html[data-theme="light"] [class~="bg-slate-700"],
+html[data-theme="light"] [class*="bg-slate-700/"] {
+  background-color: #e2e8f0;
+}
+
+html[data-theme="light"] [class~="bg-slate-800"],
+html[data-theme="light"] [class*="bg-slate-800/"] {
+  background-color: #fff;
+}
+
+html[data-theme="light"] [class~="bg-slate-600"],
+html[data-theme="light"] [class*="bg-slate-600/"] {
+  background-color: #cbd5e1;
+}
+
+html[data-theme="light"] [class*="bg-[#111827]"] {
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+html[data-theme="light"] [class*="bg-[#162033]"] {
+  background-color: #f8fafc;
+}
+
+html[data-theme="light"] [class~="text-slate-50"],
+html[data-theme="light"] [class~="text-slate-100"] {
+  color: #0f172a;
+}
+
+html[data-theme="light"] [class~="text-slate-200"] {
+  color: #1e293b;
+}
+
+html[data-theme="light"] [class~="text-slate-300"] {
+  color: #334155;
+}
+
+html[data-theme="light"] [class~="text-slate-400"] {
+  color: #475569;
+}
+
+html[data-theme="light"] [class~="text-slate-500"] {
+  color: #64748b;
+}
+
+html[data-theme="light"] [class~="text-teal-100"],
+html[data-theme="light"] [class~="text-teal-200"],
+html[data-theme="light"] [class~="text-teal-300"],
+html[data-theme="light"] [class~="text-teal-400"] {
+  color: #0f766e;
+}
+
+html[data-theme="light"] [class~="text-amber-100"],
+html[data-theme="light"] [class~="text-amber-200"],
+html[data-theme="light"] [class~="text-amber-300"] {
+  color: #92400e;
+}
+
+html[data-theme="light"] [class~="text-emerald-300"],
+html[data-theme="light"] [class~="text-emerald-400"] {
+  color: #047857;
+}
+
+html[data-theme="light"] [class~="text-red-300"],
+html[data-theme="light"] [class~="text-red-400"] {
+  color: #b91c1c;
+}
+
+html[data-theme="light"] [class~="text-violet-100"],
+html[data-theme="light"] [class~="text-violet-200"],
+html[data-theme="light"] [class~="text-violet-300"] {
+  color: #5b21b6;
+}
+
+html[data-theme="light"] [class~="hover:text-violet-200"]:hover {
+  color: #5b21b6;
+}
+
+html[data-theme="light"] [class~="border-slate-800"],
+html[data-theme="light"] [class*="border-slate-800/"],
+html[data-theme="light"] [class~="border-slate-700"],
+html[data-theme="light"] [class*="border-slate-700/"] {
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] [class~="border-slate-600"] {
+  border-color: #94a3b8;
+}
+
+html[data-theme="light"] [class*="divide-slate-700"] > :not(:last-child) {
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] [class~="placeholder-slate-500"]::placeholder {
+  color: #64748b;
+}
+
+html[data-theme="light"] [class~="hover:bg-slate-900"]:hover,
+html[data-theme="light"] [class~="hover:bg-slate-800"]:hover,
+html[data-theme="light"] [class~="hover:bg-slate-700"]:hover {
+  background-color: #e2e8f0;
+}
+
+html[data-theme="light"] [class~="hover:text-white"]:hover {
+  color: #0f172a;
+}
+
+html[data-theme="light"] [class~="bg-gradient-to-br"] {
+  background-image: linear-gradient(to bottom right, #ccfbf1, #f8fafc, #f8fafc);
+}
+
+html[data-theme="light"] [class~="from-teal-600"] {
+  --tw-gradient-from: #0f766e var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(15 118 110 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+html[data-theme="light"] [class~="via-teal-500"] {
+  --tw-gradient-to: rgb(15 118 110 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #0f766e var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+html[data-theme="light"] [class~="to-amber-500"] {
+  --tw-gradient-to: #b45309 var(--tw-gradient-to-position);
+}
+
+html[data-theme="light"] ::selection {
+  color: #fff;
+  background: #0f766e;
+}
