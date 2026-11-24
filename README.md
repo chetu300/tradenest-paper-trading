@@ -277,32 +277,33 @@ npm test
 
 The current Jest/Supertest suite mocks Mongoose models and covers buy/sell execution, insufficient funds, insufficient holdings, and portfolio responses.
 
-## Deploy without GitHub: Netlify + Railway
+## Deployment: Vercel + Render
 
-The frontend is configured for Netlify, and the Express API with Socket.IO is configured for Railway. Deploying uploads the app source to these services; local `.env` files and secrets are excluded. The database must be reachable through a MongoDB Atlas connection string.
+The React/Vite frontend is hosted on Vercel. The Express API and Socket.IO server are hosted on Render, and MongoDB Atlas provides the database. Keep `MONGO_URI` and `JWT_SECRET` in Render environment variables only; never add secrets to the frontend or commit local `.env` files.
 
-### 1. Deploy the backend to Railway
+### 1. Deploy the backend to Render
 
-1. Create a Railway account and install the Railway CLI using Railway's official instructions.
-2. From the `backend/` directory, run `railway login`, link to a new or existing Railway project, then deploy with `railway up`.
-3. In the Railway service variables, set `MONGO_URI` to your MongoDB Atlas connection string and `JWT_SECRET` to a unique long random secret.
-4. Generate a public domain for the service and verify `https://YOUR-RAILWAY-DOMAIN/api/health` returns `{"status":"ok"}`.
+1. Push the project to GitHub and connect the repository to Render.
+2. In Render, create a **Blueprint** from the repository. The root `render.yaml` configures the backend service using `backend/` as its root directory.
+3. Enter your MongoDB Atlas connection string for `MONGO_URI`. Render generates a secure `JWT_SECRET`.
+4. After Vercel creates the frontend URL, set Render's `CLIENT_URL` to that exact origin, such as `https://your-app.vercel.app` (no trailing slash).
+5. Wait for the Render health check to pass and verify `https://YOUR-RENDER-DOMAIN/api/health` returns `{"status":"ok"}`. Copy the Render service URL for the frontend settings.
 
-### 2. Deploy the frontend to Netlify
+### 2. Deploy the frontend to Vercel
 
-1. Create a Netlify account and install and log in to the Netlify CLI using Netlify's official instructions.
-2. From the `frontend/` directory, run `netlify init` to create or link a site.
-3. In the Netlify site's environment settings, add these variables using the Railway public domain:
+1. Import the same GitHub repository into Vercel.
+2. Set **Root Directory** to `frontend`. Use `npm run build` as the build command and `dist` as the output directory.
+3. Add these environment variables in Vercel, replacing the example URL with the Render service URL:
 
    ```text
-   VITE_API_URL=https://YOUR-RAILWAY-DOMAIN/api
-   VITE_SOCKET_URL=https://YOUR-RAILWAY-DOMAIN
+   VITE_API_URL=https://YOUR-RENDER-DOMAIN/api
+   VITE_SOCKET_URL=https://YOUR-RENDER-DOMAIN
    ```
 
-4. Run `netlify deploy --prod` from `frontend/` to build and publish the site.
-5. Copy the Netlify site origin into Railway's `CLIENT_URL` variable and redeploy/restart the Railway service.
+4. Deploy the project. The `frontend/vercel.json` rewrite supports client-side routes such as `/markets` and `/login`.
+5. If you change Vercel environment variables, create a new frontend deployment so they are included in the build.
 
-The `frontend/netlify.toml` file sets the build output and SPA route fallback. Never put `MONGO_URI` or `JWT_SECRET` in Netlify or in frontend code. Keep them only in Railway's backend environment variables.
+Never add `MONGO_URI` or `JWT_SECRET` to Vercel; keep them only in Render's backend environment variables.
 
 ## Security & Performance Highlights
 
