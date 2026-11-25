@@ -18,7 +18,7 @@ Developed by Chetna Singh
   <img alt="Chart.js" src="https://img.shields.io/badge/Chart.js-4.6.1-FF6384?logo=chartdotjs&logoColor=white">
 </p>
 
-> TradeNest is an educational trading simulator. It does not connect to a real exchange, accept real money, or provide investment advice.
+> TradeNest is an educational trading simulator that uses simulated prices and virtual funds only. It does not connect to a real exchange, accept real money, or provide investment advice.
 
 ## Overview
 
