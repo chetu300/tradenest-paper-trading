@@ -1,8 +1,8 @@
 # TradeNest — Virtual Stock Trading Simulator
 
-**A full-stack MERN paper-trading platform for practicing Indian-equity trades with real-time simulated market data.**
+A full-stack MERN paper-trading platform for practicing Indian-equity trades with real-time simulated market data.
 
-**Developed by Chetna Singh**
+Developed by Chetna Singh
 
 <p align="left">
   <img alt="React" src="https://img.shields.io/badge/React-19.3.1-61DAFB?logo=react&logoColor=white">
@@ -307,7 +307,7 @@ Never add `MONGO_URI` or `JWT_SECRET` to Vercel; keep them only in Render's back
 
 ## Security & Performance Highlights
 
-- **JWT authentication:** Signup and login issue signed, seven-day tokens; protected routes verify a Bearer token in the Authorization header.
+- **JWT authentication:** Signup and login issue signed, seven-day tokens; protected routes verify bearer tokens in the Authorization header.
 - **Password security:** Passwords are hashed with bcryptjs at cost 12 and omitted from normal user reads.
 - **Server-side authorization:** Trade and portfolio operations derive the account from the verified JWT rather than a client-supplied user ID.
 - **CORS allowlisting:** REST and Socket.IO use `CLIENT_URL`, with a localhost fallback.
