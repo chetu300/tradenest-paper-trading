@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuthError, signup } from "../features/auth/authSlice.js";
-import ThemeToggle from "../components/ThemeToggle.jsx";
 
 export default function SignupPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -33,7 +32,6 @@ export default function SignupPage() {
             <img src="/tradenest-logo.svg" alt="TradeNest" className="h-9 w-9" />
             <span>TradeNest</span>
           </Link>
-          <ThemeToggle />
         </div>
         <h1 className="text-2xl font-bold text-slate-50">Create your account</h1>
         <p className="mb-7 mt-2 text-sm text-slate-400">Start practicing with ₹1,00,000 in virtual cash.</p>

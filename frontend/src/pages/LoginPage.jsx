@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuthError, login } from "../features/auth/authSlice.js";
-import ThemeToggle from "../components/ThemeToggle.jsx";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -54,7 +53,6 @@ function AuthLayout({ title, subtitle, children }) {
             <img src="/tradenest-logo.svg" alt="TradeNest" className="h-9 w-9" />
             <span>TradeNest</span>
           </Link>
-          <ThemeToggle />
         </div>
         <h1 className="text-2xl font-bold text-slate-50">{title}</h1>
         <p className="mb-7 mt-2 text-sm text-slate-400">{subtitle}</p>
